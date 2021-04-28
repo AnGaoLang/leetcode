@@ -1,0 +1,7 @@
+class MyQueue {
+  
+
+  constructor(length) {
+
+  }
+}
