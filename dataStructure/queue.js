@@ -8,6 +8,15 @@
  * deQueue(): 从循环队列中删除一个元素。如果成功删除则返回真。
  * isEmpty(): 检查循环队列是否为空。
  * isFull(): 检查循环队列是否已满。
+ * 
+ * 0 1 2 3 4 5
+ * 1 2 3 4 5 0
+ * 2 3 4 5 0 1
+ * 3 4 5 0 1 2
+ * 4 5 0 1 2 3
+ * 5 0 1 2 3 4
+ * 0 1 2 3 4 5
+ * 
  * @class CircleQueue
  */
 
@@ -69,10 +78,61 @@
 }
 
 
-// 0 1 2 3 4 5
-// 1 2 3 4 5 0
-// 2 3 4 5 0 1
-// 3 4 5 0 1 2
-// 4 5 0 1 2 3
-// 5 0 1 2 3 4
-// 0 1 2 3 4 5
+/**
+ * 广度遍历最短路径
+ * 队列和广度优先遍历，利用先进先出的队列，层层遍历
+ * @param {*} root 根节点，实际上就包含了整颗树或图，因为有层层嵌套的指针
+ * @param {*} target
+ */
+const data = [
+  {
+      name: 'a',
+      children: [
+          { name: 'b', children: [{ name: 'e' }] },
+          { name: 'c', children: [{ name: 'f' }] },
+          { name: 'd', children: [{ name: 'g' }] },
+      ],
+  },
+  {
+      name: 'a2',
+      children: [
+          { name: 'b2', children: [{ name: 'e2' }] },
+          { name: 'c2', children: [{ name: 'f2' }] },
+          { name: 'd2', children: [{ name: 'g2' }] },
+      ],
+  }
+];
+
+function BreadthFirstSearch(root, target) {
+  const queue = []
+  // 可以新建一个哈希集确保不会访问一个节点2次，主要适用于遍历图
+  // const used = new Set()
+  let step = 0
+  queue.push(...root)
+  // used.push(...root)
+
+  while(queue.length !== 0) {
+    step++
+     // 这里的缓存length是为了记住上一层遍历的长度
+    let size = queue.length
+    for(let i = 0; i < size; i++) {
+      const curNode = queue[i]
+      if (curNode.name == target) return step
+      if (curNode.children) {
+        // 可以在这里添加一层判断，确保在图的遍历中不会添加相同的节点
+        // curNode.children.forEach(item => {
+        //   if (!used.has(item)) {
+        //     queue.push(item)
+        //     used.push(item)
+        //   }
+        // })
+        queue.push(...curNode.children)
+      }
+      // 这里的shift减小了length,会造成循环跳过一个元素
+      queue.shift()
+      size--
+      i--
+    }
+  }
+  return -1
+}
