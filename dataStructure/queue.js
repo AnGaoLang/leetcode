@@ -136,3 +136,13 @@ function BreadthFirstSearch(root, target) {
   }
   return -1
 }
+
+
+/**
+ * 岛屿数量
+ *
+ * @param {*} grid
+ */
+function numIslands(grid) {
+  
+};
