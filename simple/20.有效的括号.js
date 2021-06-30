@@ -42,11 +42,12 @@
   return stack.length == 0  && result
 };
 
-// ptython 直接成对的替换即可，最后为空便为真
-class Solution:
-  def isValid(self, s):
-      while '{}' in s or '()' in s or '[]' in s:
-          s = s.replace('{}', '')
-          s = s.replace('[]', '')
-          s = s.replace('()', '')
-      return s == ''
+// 直接成对的替换括号即可，最后为空便为真
+var isValid = function(s) {
+  while (s.includes('{}') || s.includes('()') || s.includes('[]')) {
+    s = s.replace('{}', '')
+    s = s.replace('[]', '')
+    s = s.replace('()', '')
+  }
+  return s == ''
+}
